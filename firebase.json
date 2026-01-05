@@ -1,0 +1,21 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "today-smovie",
+          "appId": "1:454711845950:android:7000a31356e28014639d6f",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "today-smovie",
+          "configurations": {
+            "android": "1:454711845950:android:7000a31356e28014639d6f"
+          }
+        }
+      }
+    }
+  }
+}

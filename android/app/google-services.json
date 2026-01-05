@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "454711845950",
+    "project_id": "today-smovie",
+    "storage_bucket": "today-smovie.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:454711845950:android:7000a31356e28014639d6f",
+        "android_client_info": {
+          "package_name": "com.todays_movie.todays_movie"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "454711845950-ba59b7kigb8ubefmcsc3jbi5vgr52j9l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMSA-jeYC_iSpl5gwf3e67JITPTETlhE4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "454711845950-ba59b7kigb8ubefmcsc3jbi5vgr52j9l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
