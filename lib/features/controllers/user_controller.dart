@@ -7,7 +7,7 @@ class UserController extends GetxController {
   static UserController get instance => Get.find<UserController>();
   final _firestore = FirebaseFirestore.instance;
 
-  MyUser? currentUser;
+  Rx<MyUser?> currentUser=Rx(null);
 
   // 1. Remove the direct '!' check here.
   // We will get the UID inside the method.
@@ -31,7 +31,7 @@ class UserController extends GetxController {
         final value = await _firestore.collection('user').doc(uid!+"1").get();
         if (value.exists) {
           print("user got initialized");
-          currentUser = MyUser.full(
+          currentUser.value = MyUser.full(
             value.id,
             value["username"],
             value["email"],

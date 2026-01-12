@@ -20,7 +20,7 @@ class MImagePicker {
 
 
       if (pickedFile != null) {
-        UserController.instance.currentUser!.setImage(pickedFile!.path);
+         UserController.instance.currentUser.value!.setImage(pickedFile!.path);
         photo = File(pickedFile!.path);
         uploadFile();
       } else {
@@ -28,12 +28,12 @@ class MImagePicker {
       }
   }
 
-   imgFromCamera() async {
+   void imgFromCamera() async {
     pickedFile = await _picker.pickImage(source: ImageSource.camera);
 
       if (pickedFile != null) {
 
-        UserController.instance.currentUser!.setImage(pickedFile!.path);
+         UserController.instance.currentUser.value!.setImage(pickedFile!.path);
         photo = File(pickedFile!.path);
       } else {
         print('No image selected.');
@@ -51,7 +51,7 @@ class MImagePicker {
     }
   }
 
-   showPicker(context) {
+   Future showPicker(context) {
     return showModalBottomSheet(
       context: context,
       builder: (BuildContext bc) {

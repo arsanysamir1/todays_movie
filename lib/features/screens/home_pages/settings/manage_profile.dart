@@ -1,17 +1,16 @@
-import 'dart:io';
-import 'package:flutter/foundation.dart';
+
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 
 import 'package:flutter/material.dart';
 
 import 'package:todays_movie/util/constants/images.dart';
 
+import '../../../../common/image_picker.dart';
+import '../../../../util/validators/edite_validator.dart';
+import '../../../controllers/manage_user_info_controller.dart';
+import '../../../controllers/user_controller.dart';
 
-import '../../../common/image_picker.dart';
-import '../../../util/validators/edite_validator.dart';
-import '../../controllers/manage_user_info_controller.dart';
-import '../../controllers/user_controller.dart';
+
 
 MImagePicker picker = MImagePicker();
 
@@ -21,7 +20,7 @@ class ManageProfile extends StatelessWidget {
     final controller=Get.put(ManageUserController());
 
     final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -99,7 +98,7 @@ class ManageProfile extends StatelessWidget {
                         controller: controller.usernameController,
                         decoration: InputDecoration(
                           labelText: "New Username",
-                          hintText: UserController.instance.currentUser!
+                          hintText:  UserController.instance.currentUser.value!
                               .getUserName(),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -112,7 +111,7 @@ class ManageProfile extends StatelessWidget {
                         controller: controller.emailController,
                         decoration: InputDecoration(
                           labelText: "New E-mail",
-                          hintText: UserController.instance.currentUser!.getEmail(),
+                          hintText:  UserController.instance.currentUser.value!.getEmail(),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),

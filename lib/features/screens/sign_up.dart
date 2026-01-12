@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:todays_movie/util/constants/images.dart';
 import 'package:todays_movie/util/validators/validator.dart';
-
+import '../../common/image_picker.dart';
 import '../controllers/auth_controller.dart';
 import '../controllers/signup_controller.dart';
 
@@ -12,8 +12,9 @@ class SignUp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MImagePicker picker = MImagePicker();
+
     final controller = Get.put(SignUpController());
-    final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     Get.put(AuthController());
     return Material(
@@ -33,7 +34,7 @@ class SignUp extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             SizedBox(height: 20,),
-            Container(
+            SizedBox(
               width: width,
               child: Text(
                 "Sign Up",
@@ -52,7 +53,9 @@ class SignUp extends StatelessWidget {
                 height: 120,
                 width: 120,
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    picker.showPicker(context);
+                  },
                   child: ClipOval(
                     child: Image(
                       image: AssetImage(MImages.unknownPerson),
@@ -71,22 +74,20 @@ class SignUp extends StatelessWidget {
             ),
             sign_up_Form(controller: controller, width: width),
 
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "You already have an account?",
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Get.offNamed("/signIn");
-                    },
-                    child: Text("Sign In ", style: TextStyle(fontSize: 16)),
-                  ),
-                ],
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "You already have an account?",
+                  style: TextStyle(fontSize: 16),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Get.offNamed("/signIn");
+                  },
+                  child: Text("Sign In ", style: TextStyle(fontSize: 16)),
+                ),
+              ],
             ),
           ],
         ),
@@ -211,7 +212,7 @@ class sign_up_Form extends StatelessWidget {
             ),
           ),
           SizedBox(height: 20,),
-          Container(
+          SizedBox(
             width: width,
             child: ElevatedButton(
               onPressed: () {

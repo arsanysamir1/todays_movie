@@ -3,6 +3,7 @@ import 'package:todays_movie/features/controllers/movie_controller.dart';
 import 'package:todays_movie/features/controllers/search_controller.dart';
 import 'package:get/get.dart';
 
+import '../controllers/downloading_controller.dart';
 import '../controllers/user_controller.dart';
 import '../modules/movie.dart';
 import '../modules/movies.dart';
@@ -11,14 +12,15 @@ class MoviePage extends StatelessWidget {
   final String name;
 
   MoviePage({super.key, required this.name});
-
-  final movieUrl =
+  final movieUrl="https://yintwvfoovprywajvtrw.supabase.co/storage/v1/object/public/movie/globe-5fdfa9a0f4.mp4";
+  final movieUrl1 =
       "https://yintwvfoovprywajvtrw.supabase.co/storage/v1/object/public/movie/Sucker%20Punch%20-%20Samurai%20Fight%20Scene%20-%204k(720P_HD).mp4";
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+
     late Movie newMovie;
     Movies.movies.forEach((element) {
       if (element.compareName(name)) {
@@ -27,6 +29,7 @@ class MoviePage extends StatelessWidget {
     });
     final controller = Get.put(Searchcontroller());
     final Mcontroller = Get.put(MovieController(search: name));
+    final downloadController=Get.put(DownloadingController());
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -109,7 +112,7 @@ class MoviePage extends StatelessWidget {
                       InkWell(
                         onTap: () {
                           Mcontroller.ChangeFavorite(newMovie);
-                          UserController.instance.currentUser!
+                           UserController.instance.currentUser.value!
                               .getFavoriteMovies()
                               .forEach((element) {
                                 print(element);
@@ -248,7 +251,7 @@ class MoviePage extends StatelessWidget {
                             decoration: BoxDecoration(color: Colors.white),
                             child: TextButton(
                               onPressed: () {
-                                Mcontroller.downloadMovie(
+                                downloadController.downloadMovie(
                                   newMovie.getMovieName(),
                                 );
                               },
@@ -265,7 +268,7 @@ class MoviePage extends StatelessWidget {
                           ElevatedButton(
                             onPressed: () {
                               Mcontroller.ChangeSave(newMovie);
-                              UserController.instance.currentUser!
+                               UserController.instance.currentUser.value!
                                   .getSavedMovies()
                                   .forEach((element) {
                                     print(element);

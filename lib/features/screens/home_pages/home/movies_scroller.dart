@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../../util/constants/colors.dart';
+import '../../../../../util/constants/colors.dart';
 import 'package:get/get.dart';
-import '../../controllers/search_controller.dart';
-import '../../modules/movies.dart';
+import '../../../controllers/search_controller.dart';
+import '../../../modules/movies.dart';
 
 class MoviesScroller extends StatelessWidget {
   const MoviesScroller({super.key});

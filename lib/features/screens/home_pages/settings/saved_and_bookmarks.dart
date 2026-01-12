@@ -1,82 +1,89 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:todays_movie/features/controllers/user_controller.dart';
-import 'package:todays_movie/features/modules/movies.dart';
-import '../../modules/movie.dart';
 
-class Saved extends StatelessWidget {
-  const Saved({super.key});
+import '../../../controllers/saved_bookmark_controller.dart';
+import '../../../controllers/user_controller.dart';
+import '../../../modules/movie.dart';
+
+
+class SavedAndBookmarks extends StatelessWidget {
+  final String pageName;
+  const SavedAndBookmarks({super.key,required this.pageName});
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    List<Movie> movies = [];
-    Movies.movies.forEach((element) {
-      if (UserController.instance.currentUser!.getSavedMovies().contains(
-        element.getMovieName(),
-      )) {
-        movies.add(element);
-      }
-    });
+    final controller=Get.put(SavedBookmarkController(pageName));
+
+
     return Scaffold(
       body: Container(
+        height:height,
+        width: width,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Color(0xff3A1D4F), ?Colors.purple[900]],
+            colors: [Color(0xff3A1D4F), Colors.purple.shade900],
             stops: [0.0, 0.4],
           ),
         ),
-        child: ListView(
-          children: [
-            SizedBox(height: 10),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  SizedBox(height: 20),
-                  IconButton(
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(Colors.black54),
-                    ),
-                    onPressed: () {
-                      Get.back();
-                    },
-                    icon: Icon(Icons.arrow_back, color: Colors.white),
-                  ),
-
-                  Center(
-                    child: Text(
-                      "Saved Movies",
-                      style: TextStyle(color: Colors.white, fontSize: 32),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  SizedBox(
-
-                    width: width,
-                    height: height,
-                    child: ListView.builder(
-                      itemCount: movies.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return MovieCard(
-                          movie: movies,
-                          width: width,
-                          index: index,
-                        );
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: 10),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    SizedBox(height: 20),
+                    IconButton(
+                      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                      style: ButtonStyle(
+                        backgroundColor: WidgetStatePropertyAll(Colors.black54),
+                      ),
+                      onPressed: () {
+                        Get.back();
                       },
+                      icon: Icon(Icons.arrow_back, color: Colors.white),
                     ),
-                  ),
-                ],
+          
+                    Center(
+                      child: Text(pageName=="saved"?"Saved Movies":"Favorite Movies",
+                        style: TextStyle(color: Colors.white, fontSize: 32),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Obx(
+                      () =>  SizedBox(
+                        child: ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: controller.movies.value.length,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return MovieCard(
+                              movie: controller.movies.value,
+                              width: width,
+                              index: index,
+                              pageName: pageName,
+                              callback:(){
+                                controller.movies.value.removeAt(index);
+                                controller.movies.refresh();
+                              } ,
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20,)
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -89,12 +96,15 @@ class MovieCard extends StatelessWidget {
     required this.movie,
     required this.width,
     required this.index,
+    required this.pageName,
+    required this.callback
   });
 
   final List<Movie> movie;
   final double width;
   final int index;
-
+  final pageName;
+  final VoidCallback callback;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -156,7 +166,19 @@ class MovieCard extends StatelessWidget {
                         ),
                         SizedBox(width: 10),
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            final user = UserController.instance.currentUser;
+                            // Perform logic based on page type
+                            if (pageName == "saved") {
+                              user.value!.removeSavedMovie(movie[index].getMovieName());
+                              user.value!.setSavedMovies();
+                            } else {
+                              user.value!.removeFavoriteMovie(movie[index].getMovieName());
+                              user.value!.setFavoriteMovies();
+                            }
+                            user.refresh();
+                            callback();
+                          },
                           child: Container(
                             padding: EdgeInsets.all(8),
                             decoration: BoxDecoration(

@@ -19,11 +19,11 @@ class ManageUserController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    usernameController.text = UserController.instance.currentUser!
+    usernameController.text =  UserController.instance.currentUser.value!
         .getUserName();
-    emailController.text = UserController.instance.currentUser!.getEmail();
+    emailController.text =  UserController.instance.currentUser.value!.getEmail();
 
-    phoneNumberController.text = UserController.instance.currentUser!
+    phoneNumberController.text =  UserController.instance.currentUser.value!
         .getPhoneNum();
   }
 
@@ -44,24 +44,24 @@ class ManageUserController extends GetxController {
       //pass updated
 
       if (emailController.text == "") {
-        emailController.text = UserController.instance.currentUser!.getEmail();
+        emailController.text =  UserController.instance.currentUser.value!.getEmail();
       } else if (emailController.text !=
-          UserController.instance.currentUser!.getEmail()) {}
+           UserController.instance.currentUser.value!.getEmail()) {}
       if (usernameController.text == "") {
-        usernameController.text = UserController.instance.currentUser!
+        usernameController.text =  UserController.instance.currentUser.value!
             .getUserName();
       }
       if (phoneNumberController.text == "") {
-        phoneNumberController.text = UserController.instance.currentUser!
+        phoneNumberController.text =  UserController.instance.currentUser.value!
             .getPhoneNum();
       }
 
-      print(UserController.instance.currentUser!.getImage());
-      UserController.instance.currentUser!.manageUserDetails(
+      print( UserController.instance.currentUser.value!.getImage());
+       UserController.instance.currentUser.value!.manageUserDetails(
         usernameController.text,
         emailController.text,
         phoneNumberController.text,
-        UserController.instance.currentUser!.getImage(),
+         UserController.instance.currentUser.value!.getImage(),
       );
 
       // Proceed with API call or navigation

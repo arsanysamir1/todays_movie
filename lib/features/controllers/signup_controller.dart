@@ -32,6 +32,7 @@ class SignUpController extends GetxController {
       await AuthController.instance.register(emailController.text, passwordController.text);
       final myUser=MyUser(AuthController.instance.user!.uid,MImages.unknownPerson,usernameController.text,emailController.text,phoneNumberController.text);
       myUser.signUpUser();
+
       // Proceed with API call or navigation
     } else {
       Get.snackbar(

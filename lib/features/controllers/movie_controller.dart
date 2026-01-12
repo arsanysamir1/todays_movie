@@ -11,11 +11,11 @@ class MovieController extends GetxController {
 
   MovieController({required this.search});
 
-  late RxBool favorite = UserController.instance.currentUser!
+  late RxBool favorite =  UserController.instance.currentUser.value!
       .getFavoriteMovies()
       .contains(search)
       .obs;
-  late RxBool save = UserController.instance.currentUser!
+  late RxBool save =  UserController.instance.currentUser.value!
       .getSavedMovies()
       .contains(search)
       .obs;
@@ -35,71 +35,37 @@ class MovieController extends GetxController {
 
   void ChangeSave(Movie newMovie) {
     save.value = !save.value;
-    if (UserController.instance.currentUser!.getSavedMovies().contains(
+    if ( UserController.instance.currentUser.value!.getSavedMovies().contains(
       newMovie.getMovieName(),
     )) {
-      UserController.instance.currentUser!.removeSavedMovie(
+       UserController.instance.currentUser.value!.removeSavedMovie(
         newMovie.getMovieName(),
       );
-      UserController.instance.currentUser!.setSavedMovies();
+       UserController.instance.currentUser.value!.setSavedMovies();
     } else {
-      UserController.instance.currentUser!.addSavedMovie(
+       UserController.instance.currentUser.value!.addSavedMovie(
         newMovie.getMovieName(),
       );
-      UserController.instance.currentUser!.setSavedMovies();
+       UserController.instance.currentUser.value!.setSavedMovies();
     }
   }
 
   void ChangeFavorite(Movie newMovie) {
     favorite.value = !favorite.value;
-    if (UserController.instance.currentUser!.getFavoriteMovies().contains(
+    if ( UserController.instance.currentUser.value!.getFavoriteMovies().contains(
       newMovie.getMovieName(),
     )) {
-      UserController.instance.currentUser!.removeFavoriteMovie(
+       UserController.instance.currentUser.value!.removeFavoriteMovie(
         newMovie.getMovieName(),
       );
-      UserController.instance.currentUser!.setFavoriteMovies();
+       UserController.instance.currentUser.value!.setFavoriteMovies();
     } else {
-      UserController.instance.currentUser!.addFavoriteMovie(
+       UserController.instance.currentUser.value!.addFavoriteMovie(
         newMovie.getMovieName(),
       );
-      UserController.instance.currentUser!.setFavoriteMovies();
+       UserController.instance.currentUser.value!.setFavoriteMovies();
     }
   }
 
-  RxBool isDownloading = false.obs;
-  RxDouble downloadRate = 0.0.obs;
 
-  Future<void> downloadMovie(String movieName) async {
-    try {
-      isDownloading.value = true;
-      downloadRate.value = 0.0;
-      final fileName = "Sucker Punch - Samurai Fight Scene - 4k(720P_HD).mp4";
-      final String movieUrl = await Supabase.instance.client.storage
-          .from("movie")
-          .getPublicUrl(fileName);
-      final directory = await getApplicationDocumentsDirectory();
-      final filePath = "${directory.path}/$movieName.mp4";
-
-      if (UserController.instance.currentUser!.getDownloadedMovies().contains(
-        movieName,
-      )) {
-        GetSnackBar(title: "File already Exists");
-      } else
-        await Dio().download(
-          movieUrl,
-          filePath,
-          onReceiveProgress: (received, total) {
-            if (total != -1) {
-              double progress = (received / total * 100);
-              print("Download progress: ${progress.toStringAsFixed(0)}%");
-            }
-          },
-        );
-      UserController.instance.currentUser!.addDownloadedMovie(movieName);
-      UserController.instance.currentUser!.setDownloadedMovies();
-    } catch (e) {
-      print(e.toString());
-    }
-  }
 }

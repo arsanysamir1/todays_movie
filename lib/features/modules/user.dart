@@ -19,6 +19,7 @@ class MyUser {
    List<dynamic> _savedMovies=[];
    List<dynamic> _downloadedMovies=[];
 
+
   MyUser.full(
       this._uid,
       this._userName,
@@ -51,6 +52,9 @@ class MyUser {
 
   String getUserName() {
     return _userName;
+  }
+  String getUidName() {
+    return _uid;
   }
   void addFavoriteMovie(String movieName){
     if(_favoriteMovies.contains(movieName)){
