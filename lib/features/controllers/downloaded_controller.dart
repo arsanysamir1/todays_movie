@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:todays_movie/features/controllers/downloading_controller.dart';
 import 'package:todays_movie/features/controllers/user_controller.dart';
 import 'package:todays_movie/features/modules/movie.dart';
 import 'package:todays_movie/features/modules/movies.dart';
