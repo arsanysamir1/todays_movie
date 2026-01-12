@@ -7,8 +7,8 @@ import 'package:todays_movie/util/constants/images.dart';
 
 
 
-class MainWelcome extends StatelessWidget {
-  const MainWelcome({super.key});
+class Welcome extends StatelessWidget {
+  const Welcome({super.key});
 
   @override
   Widget build(BuildContext context) {

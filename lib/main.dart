@@ -16,11 +16,11 @@ import 'features/screens/homePages.dart';
 import 'features/screens/home_pages/homeMainPage.dart';
 import 'features/screens/home_pages/settings/saved_and_bookmarks.dart';
 import 'features/screens/home_pages/settings/manage_profile.dart';
+import 'features/screens/mainWelcome.dart';
 import 'features/screens/movie.dart';
 import 'features/screens/payment.dart';
 import 'features/screens/play_movie.dart';
 import 'features/screens/search.dart';
-import 'features/screens/home_pages/settings.dart';
 import 'features/screens/sign_in.dart';
 import 'features/screens/sign_up.dart';
 import 'features/screens/subscription.dart';
@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
 
       theme: MAppTheme.darkTheme,
       debugShowCheckedModeBanner: false,
-      home:SignIn() ,
+      home: Welcome(),
       getPages: [
         GetPage(name: "/signIn", page: () => SignIn(),),
         GetPage(name: "/signUp", page: () => SignUp(),),
@@ -62,9 +62,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: "/payment", page: () => Payment(),),
         GetPage(name: "/paymentMethod", page: () => PaymentMethod(),),
         GetPage(name: "/search", page: () => Search(),),
-
         GetPage(name: "/savedAndBookmarks", page: () => SavedAndBookmarks(pageName: Get.arguments,),),
-        GetPage(name: "/settings", page: () => Settings(),),
         GetPage(name: "/movie", page: () => MoviePage(name:Get.arguments),),
         GetPage(name: "/homePages", page: () => HomePages(),),
         GetPage(name: "/playMovie", page: () => MoviePlayerScreen(videoUrl:Get.arguments[0],movieName:Get.arguments[1] ,),),

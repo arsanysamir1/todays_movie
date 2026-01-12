@@ -80,17 +80,23 @@ class SignIn extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 20,),
-                        TextFormField(
-                          controller: controller.passwordController,
-                          validator: Validator.validatePassword,
-                          decoration: InputDecoration(
-                            filled: true,
-                            prefixIcon: Icon(Icons.key, color: Colors.white),
-                            fillColor: Color(0xff3A1D4F),
-                            labelText: "Password",
-                            labelStyle: TextStyle(color: Colors.white, fontSize: 24),
-                            border: OutlineInputBorder(),
-                            hintText: "Please enter a strong password",
+                        Obx(
+                          () =>  TextFormField(
+                            controller: controller.passwordController,
+                            validator: Validator.validatePassword,
+                            obscureText:controller.isPasswordHidden.value ,
+                            decoration: InputDecoration(
+                              filled: true,
+                              prefixIcon: Icon(Icons.key, color: Colors.white),
+                              fillColor: Color(0xff3A1D4F),
+
+                              labelText: "Password",
+                              labelStyle: TextStyle(color: Colors.white, fontSize: 24),
+                              border: OutlineInputBorder(),
+                              hintText: "Please enter a strong password",
+
+
+                            ),
                           ),
                         ),
                         SizedBox(height: 20,),
@@ -101,7 +107,7 @@ class SignIn extends StatelessWidget {
                             value: controller.isChecked.value,
                             checkColor: Colors.white,
                             fillColor: WidgetStatePropertyAll(Colors.transparent),
-                            onChanged: (val) => controller.toggleCheckbox(val),
+                            onChanged: (val) {controller.toggleCheckbox(val);controller.Visibility();},
                             controlAffinity: ListTileControlAffinity.leading, // Moves box to the left
                             activeColor: Colors.blue, // Color when checked
                           ),

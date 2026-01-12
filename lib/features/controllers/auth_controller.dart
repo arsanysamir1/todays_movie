@@ -26,13 +26,13 @@ class AuthController extends GetxController {
 
   _initialScreen(User? user) {
     // Delay is good, but ensure the route names match your GetPage setup
-    Future.delayed(const Duration(milliseconds: 500), () {
-      if (user == null) {
-        Get.offAllNamed('/signIn');
-      } else {
-        Get.offAllNamed('/homePages');
-      }
-    });
+    // Future.delayed(const Duration(milliseconds: 500), () {
+    //   if (user == null) {
+    //     Get.offAllNamed('/signIn');
+    //   } else {
+    //     Get.offAllNamed('/homePages');
+    //   }
+    // });
   }
   //
 

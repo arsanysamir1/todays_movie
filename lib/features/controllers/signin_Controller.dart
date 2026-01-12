@@ -21,6 +21,7 @@ class SignInController extends GetxController{
 
   void toggleCheckbox(bool? value) {
     isChecked.value = value ?? false;
+
   }
 
   void Visibility() {

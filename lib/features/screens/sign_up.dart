@@ -162,6 +162,7 @@ class sign_up_Form extends StatelessWidget {
           TextFormField(
             controller: controller.passwordController,
             validator: Validator.validatePassword,
+            obscureText: true,
             decoration: InputDecoration(
               filled: true,
               prefixIcon: Icon(Icons.key, color: Colors.white),
@@ -175,6 +176,7 @@ class sign_up_Form extends StatelessWidget {
           SizedBox(height: 20,),
           TextFormField(
             controller: controller.conPasswordController,
+            obscureText: true,
             decoration: InputDecoration(
               filled: true,
               prefixIcon: Icon(Icons.key, color: Colors.white),
@@ -217,6 +219,7 @@ class sign_up_Form extends StatelessWidget {
             child: ElevatedButton(
               onPressed: () {
                 controller.submitForm();
+                Get.offNamed("/signIn");
 
               },
               child: Text("Sign Up"),
