@@ -71,7 +71,7 @@ class MoviePage extends StatelessWidget {
 
                 InkWell(
                   onTap: () {
-                    Get.toNamed("/playMovie", arguments: [movieUrl,""]);
+                    Get.toNamed("/playMovie", arguments: [movieUrl,newMovie.getMovieName()]);
                   },
                   child: SizedBox(
                     height: height * 0.6,
@@ -234,7 +234,7 @@ class MoviePage extends StatelessWidget {
                             ),
                             child: TextButton(
                               onPressed: () {
-                                Get.toNamed("/playMovie", arguments: [movieUrl,""]);
+                                Get.toNamed("/playMovie", arguments: [movieUrl,newMovie.getMovieName()]);
 
                               },
                               child: Text(

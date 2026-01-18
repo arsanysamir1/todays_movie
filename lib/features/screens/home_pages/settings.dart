@@ -39,20 +39,8 @@ class Settings extends StatelessWidget {
                 width: 120,
                 child: ClipRRect(
                   borderRadius: BorderRadiusGeometry.circular(100),
-                  child: Image(
-                    image:
-                        UserController.instance.currentUser.value!.getImage() ==
-                            MImages.unknownPerson
-                        ? AssetImage(
-                            MImages.unknownPerson,
-                          )
-                        : FileImage(
-                            File(
-                              UserController.instance.currentUser.value!
-                                  .getImage(),
-                            ),
-                          ),
-                    fit: BoxFit.fill,
+                  child: getImage(
+                    UserController.instance.currentUser.value!.getImage(),
                   ),
                 ),
               ),
@@ -115,13 +103,14 @@ class Settings extends StatelessWidget {
               ),
               SizedBox(height: 10),
               InkWell(
-                onTap: () => Get.toNamed("/savedAndBookmarks",arguments:  "favorite"),
+                onTap: () =>
+                    Get.toNamed("/savedAndBookmarks", arguments: "favorite"),
                 child: settingsBtn(Icons.favorite, "Favorite movies"),
               ),
               SizedBox(height: 10),
               InkWell(
                 onTap: () {
-                  Get.toNamed("/savedAndBookmarks",arguments:"saved");
+                  Get.toNamed("/savedAndBookmarks", arguments: "saved");
                 },
                 child: settingsBtn(Icons.bookmark, "Saved movies"),
               ),
@@ -129,6 +118,7 @@ class Settings extends StatelessWidget {
               InkWell(
                 onTap: () {
                   AuthController.instance.logout();
+                  Get.offNamed("/signIn");
                 },
                 child: settingsBtn(Icons.exit_to_app_outlined, "Sign Out"),
               ),
@@ -137,6 +127,17 @@ class Settings extends StatelessWidget {
         }
       }),
     );
+  }
+}
+
+Image getImage(String image) {
+  final file = File(image);
+  if (image != MImages.unknownPerson && file.exists() == true) {
+
+    return Image(image: FileImage(file), fit: BoxFit.fill,);
+
+  } else {
+    return Image(image: AssetImage(MImages.unknownPerson), fit: BoxFit.fill,);
   }
 }
 

@@ -1,7 +1,9 @@
 import 'package:flutter/animation.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import '../../../util/constants/images.dart';
+import 'hive_controller.dart';
 
 class WelcomeController extends GetMaterialController {
   final PageController pageController = PageController(initialPage: 0);
@@ -14,6 +16,7 @@ class WelcomeController extends GetMaterialController {
 
   void nextPage() {
     if (currentPageIndex.value == 2) {
+      MyHive.setNewValue(key: "welcome",value: true);
       Get.offNamed("/signIn");
     } else {
       currentPageIndex.value++;
@@ -23,6 +26,7 @@ class WelcomeController extends GetMaterialController {
   }
 
   void skipPage() {
-   Get.offNamed("/signIn");
+    MyHive.setNewValue(key: "welcome",value: true);
+    Get.offNamed("/signIn");
   }
 }

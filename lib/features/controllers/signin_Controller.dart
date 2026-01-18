@@ -15,7 +15,6 @@ class SignInController extends GetxController{
 
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
   }
 
@@ -27,17 +26,13 @@ class SignInController extends GetxController{
   void Visibility() {
     isPasswordHidden.value = !isPasswordHidden.value;
   }
-  // 2. Form Controllers
 
-  // 3. Validation Logic
   void submitForm() {
-    // Triggers all 'validator' functions in the Form fields
     if (formKey.currentState!.validate()) {
       Get.snackbar("Success", "Form is valid!",
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.green,
         colorText: Colors.white,
-
       );
       try{
         AuthController.instance.login(emailController.text, passwordController.text);
@@ -45,12 +40,12 @@ class SignInController extends GetxController{
         print("error:${e.toString()}");
       }
 
-      // Proceed with API call or navigation
     } else {
       Get.snackbar("Error", "Please correct the errors in the form",
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red,
         colorText: Colors.white,
+
       );
     }
   }

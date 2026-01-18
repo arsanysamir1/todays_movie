@@ -6,11 +6,7 @@ import 'package:todays_movie/features/modules/user.dart';
 class UserController extends GetxController {
   static UserController get instance => Get.find<UserController>();
   final _firestore = FirebaseFirestore.instance;
-
   Rx<MyUser?> currentUser=Rx(null);
-
-  // 1. Remove the direct '!' check here.
-  // We will get the UID inside the method.
   String? uid;
 
   @override
@@ -21,13 +17,11 @@ class UserController extends GetxController {
 
   Future<void> setUser() async {
     try {
-      // 2. Safely get the user from AuthController
       var authUser = Get.find<AuthController>().user;
 
       if (authUser != null) {
         uid = authUser.uid;
 
-        // Use the uid safely here
         final value = await _firestore.collection('user').doc(uid!+"1").get();
         if (value.exists) {
           print("user got initialized");

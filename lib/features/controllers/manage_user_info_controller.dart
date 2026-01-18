@@ -23,8 +23,7 @@ class ManageUserController extends GetxController {
         .getUserName();
     emailController.text =  UserController.instance.currentUser.value!.getEmail();
 
-    phoneNumberController.text =  UserController.instance.currentUser.value!
-        .getPhoneNum();
+    phoneNumberController.text =  UserController.instance.currentUser.value!.getPhoneNum();
   }
 
   Future<void> submitForm() async {

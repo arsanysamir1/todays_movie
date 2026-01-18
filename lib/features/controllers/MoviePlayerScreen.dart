@@ -10,12 +10,12 @@ import 'package:flutter/material.dart';
 class MoviePlayerController extends GetxController {
   final String videoUrl;
   final movieName;
-
-  MoviePlayerController({required this.movieName, required this.videoUrl});
-
   late VideoPlayerController videoPlayerController;
   ChewieController? chewieController;
   var isInitialized = false.obs;
+
+  MoviePlayerController({required this.movieName, required this.videoUrl});
+
 
   @override
   void onInit() {

@@ -21,13 +21,11 @@ class MovieController extends GetxController {
 
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
   }
 
   @override
   void onClose() {
-    // TODO: implement onClose
 
     super.onClose();
   }
@@ -65,6 +63,5 @@ class MovieController extends GetxController {
        UserController.instance.currentUser.value!.setFavoriteMovies();
     }
   }
-
 
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:get/get.dart';
 
-class PaymentController extends GetxController {
+class PaymentMethodController extends GetxController {
   RxString cardNumber = "".obs;
   RxString expireDate = "".obs;
   RxString holderName = "".obs;

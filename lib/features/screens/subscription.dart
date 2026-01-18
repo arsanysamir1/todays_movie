@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todays_movie/features/controllers/user_controller.dart';
 import 'package:todays_movie/util/constants/images.dart';
 import 'package:get/get.dart';
 
@@ -7,13 +8,16 @@ class Subscription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
-    List<String> plan = [
-      "Free Plan",
-      "Elite Subscription",
-      "Premium Subscription",
-    ];
+
+    final width = MediaQuery
+        .of(context)
+        .size
+        .width;
+    final height = MediaQuery
+        .of(context)
+        .size
+        .height;
+    List<String> plan = ["Free", "Premium", "Premium Plus"];
     List<String> headLine = [
       "Watch your favorite movie for 3 hours daily.",
       "Watch your favorite movie for 10 hours daily.",
@@ -24,7 +28,7 @@ class Subscription extends StatelessWidget {
       "You can Download 5 movies every day.",
       "You can Download 20 movies every day.",
     ];
-    List<String> payment = ["0.0 EGP/Mon", "50.0 EGP/Mon", "150.0 EGP/Mon"];
+    List<double> payment = [0.0,50.0,150.0];
 
     return Scaffold(
       body: Container(
@@ -41,13 +45,15 @@ class Subscription extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 40),
+              getBackIcon(height),
+              SizedBox(height: height * 0.02),
               Text(
                 "Welcome in Today's Movie",
                 style: TextStyle(fontSize: 32, fontWeight: FontWeight.w700),
               ),
-              SizedBox(height: 30),
+              SizedBox(height: height * 0.02),
               Text(
                 "Choose the Plan that suites your needs including a Free Plan for everyday watching",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
@@ -87,7 +93,7 @@ class Subscription extends StatelessWidget {
                           ),
                           SizedBox(height: 10),
                           Text(
-                            plan[index],
+                            "${plan[index]} Tier",
                             style: TextStyle(
                               fontSize: 26,
                               fontWeight: FontWeight.w700,
@@ -96,7 +102,7 @@ class Subscription extends StatelessWidget {
                           ),
                           SizedBox(height: 10),
                           Text(
-                            payment[index],
+                            "${payment[index]} EGP/MON",
                             style: TextStyle(fontSize: 32, color: Colors.black),
                           ),
                           SizedBox(height: 30),
@@ -142,14 +148,15 @@ class Subscription extends StatelessWidget {
                           ElevatedButton(
                             onPressed: () {
                               if (index == 1) {
-                                Get.toNamed("/payment");
+                                Get.toNamed("/payment",arguments: [plan[index],payment[index]],);
                               } else if (index == 2) {
-                                Get.toNamed("/payment");
-                              } else {
-                                Get.toNamed("/home");
+                                Get.toNamed("/payment",arguments: [plan[index],payment[index]]);
+                              } else if (index == 0) {
+                                Get.offNamed("/homePages");
                               }
                             },
-                            child: Text("Choose  this Plan"),
+                            child: Text(
+                                UserController().currentUser.value?.getSub() == plan[index] ? "You choose this plan":"Choose this Plan"),
                           ),
                         ],
                       ),
@@ -162,5 +169,24 @@ class Subscription extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget getBackIcon(double height) {
+    if (Get.previousRoute == "/homePages") {
+      return Column(
+        children: [
+          SizedBox(height: height * 0.02),
+          IconButton(
+            padding: EdgeInsets.all(15),
+            onPressed: () {
+              Get.back();
+            },
+            icon: Icon(Icons.arrow_back_ios),
+          ),
+        ],
+      );
+    } else {
+      return Container();
+    }
   }
 }

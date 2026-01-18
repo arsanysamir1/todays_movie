@@ -6,7 +6,7 @@ import '../../controllers/user_controller.dart';
 import '../../modules/movie.dart';
 
 class Download extends StatelessWidget {
-    const Download({super.key});
+  const Download({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -50,30 +50,31 @@ class Download extends StatelessWidget {
                       } else if (controller.movies.isEmpty) {
                         return Container();
                       } else {
-                        
                         return ListView.builder(
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: controller.movies.value.length,
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
-                            final movie=controller.movies.value[index];
+                            final movie = controller.movies.value[index];
                             return MovieCard(
                               movie: movie,
                               width: width,
                               index: index,
                               callback: () {
-                                final user = UserController.instance.currentUser;
-
+                                final user =
+                                    UserController.instance.currentUser;
                                 user.value!.removeDownloadedMovie(
                                   movie.getMovieName(),
                                 );
                                 user.value!.setDownloadedMovies();
                                 user.refresh();
 
-                                controller.deleteMovie(
-                                  movie.getMovieName(),
+                                controller.deleteMovie(movie.getMovieName());
+                                controller.movies.removeWhere(
+                                  (element) =>
+                                      element.getMovieName() ==
+                                      movie.getMovieName(),
                                 );
-
                                 controller.movies.refresh();
                               },
                             );
@@ -112,7 +113,7 @@ class MovieCard extends StatelessWidget {
       onTap: () {
         print("Movie name ${movie.getMovieName()}");
 
-        Get.toNamed("/movie", arguments:  movie.getMovieName());
+        Get.toNamed("/movie", arguments: movie.getMovieName());
       },
       child: Card(
         color: Colors.purple.shade800,
@@ -126,7 +127,7 @@ class MovieCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15),
                 child: Image(
                   fit: BoxFit.fill,
-                  image: NetworkImage( movie.getMainImage()),
+                  image: NetworkImage(movie.getMainImage()),
                 ),
               ),
             ),
@@ -146,9 +147,9 @@ class MovieCard extends StatelessWidget {
                             SizedBox(
                               width: width / 2,
                               child: Text(
-                                 movie.getMovieName().length > 40
-                                    ? "${ movie.getMovieName().substring(0, 40)}..."
-                                    :  movie.getMovieName(),
+                                movie.getMovieName().length > 40
+                                    ? "${movie.getMovieName().substring(0, 40)}..."
+                                    : movie.getMovieName(),
                                 style: TextStyle(fontSize: 18),
                                 textAlign: TextAlign.start,
                               ),
@@ -156,8 +157,8 @@ class MovieCard extends StatelessWidget {
                             Row(
                               children: [
                                 Icon(Icons.star, color: Colors.yellow),
-                                Text("  ${ movie.getRating()}"),
-                                Text("  (${ movie.getViews()})"),
+                                Text("  ${movie.getRating()}"),
+                                Text("  (${movie.getViews()})"),
                               ],
                             ),
                           ],

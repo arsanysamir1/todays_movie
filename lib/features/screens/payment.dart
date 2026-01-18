@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:todays_movie/features/controllers/hive_controller.dart';
+
+import '../controllers/payment_controller.dart';
 
 class Payment extends StatelessWidget {
-  const Payment({super.key});
+  final String plan;
+  final double price;
+
+  const Payment({super.key, required this.plan, required this.price});
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    final controller = Get.put(PaymentController());
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -32,32 +40,36 @@ class Payment extends StatelessWidget {
                 color: Colors.white,
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       SizedBox(height: 20),
                       IconButton(
-                        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                        style: ButtonStyle(
-                          backgroundColor: WidgetStatePropertyAll(Colors.black54),
-                        ),
+                        padding: EdgeInsets.all(15),
                         onPressed: () {
                           Get.back();
                         },
-                        icon: Icon(Icons.arrow_back,color: Colors.white,),
+                        icon: Icon(Icons.arrow_back_ios, color: Colors.black),
                       ),
                       SizedBox(height: 20),
                       Center(
                         child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 10,
+                          ),
 
-                          child: Text("Payment Details", style: TextStyle(color: Colors.black,fontSize: 32)),
+                          child: Text(
+                            "Payment Details",
+                            style: TextStyle(color: Colors.black, fontSize: 32),
+                          ),
                         ),
                       ),
                       SizedBox(height: 30),
 
                       Text(
-                        "Free Plan:",
+                        "$plan Plan:",
                         style: TextStyle(
                           fontSize: 26,
                           fontWeight: FontWeight.w700,
@@ -120,7 +132,7 @@ class Payment extends StatelessWidget {
                         style: TextStyle(fontSize: 24, color: Colors.black),
                       ),
                       Text(
-                        "0.0 EGP",
+                        "$price EGP",
                         style: TextStyle(fontSize: 20, color: Colors.black),
                       ),
                       SizedBox(height: 20),
@@ -132,25 +144,65 @@ class Payment extends StatelessWidget {
                         "1 Month",
                         style: TextStyle(fontSize: 20, color: Colors.black),
                       ),
+                      SizedBox(height: 10),
+                      Text(
+                        "Payment Method:",
+                        style: TextStyle(fontSize: 24, color: Colors.black),
+                      ),
 
-                      SizedBox(height: 70),
-                      Container(
-                        margin: EdgeInsets.all(10),
-                        width: width,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Get.toNamed("/paymentMethod");
-                          },
-                          child: Text(
-                            "Choose payment method",
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        ),
+                      SizedBox(height: 30),
+                      Obx(
+                        () => controller.cardInfo.isEmpty
+                            ? Container(
+                                margin: EdgeInsets.all(10),
+                                width: width,
+                                child: ElevatedButton(
+                                  onPressed: () async {
+                                    controller.cardInfo.value =
+                                        await Get.toNamed("/paymentMethod");
+
+                                  },
+                                  child: Text(
+                                    "Choose payment method",
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                ),
+                              )
+                            : GestureDetector(
+                                onTap: () async {
+                                  controller.cardInfo.value = await Get.toNamed(
+                                    "/paymentMethod",
+                                  );
+                                },
+                                child: FractionallySizedBox(
+                                  widthFactor: 1,
+                                  child: Container(
+                                    padding: EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Colors.purple.shade700,
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          controller.cardInfo.value[0],
+                                          style: TextStyle(fontSize: 20),
+                                        ),
+                                        Text(
+                                          "${controller.cardInfo.value[1]} **** **** ****",
+                                          style: TextStyle(fontSize: 14),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
                       ),
                       SizedBox(height: 10),
                     ],
                   ),
-
                 ),
               ),
             ),
@@ -161,11 +213,9 @@ class Payment extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {
                   Get.toNamed("/home");
+                  MyHive.setNewValue(key: 'userTier',value: true);
                 },
-                child: Text(
-                  "Confirm Payment",
-                  style: TextStyle(fontSize: 20),
-                ),
+                child: Text("Confirm Payment", style: TextStyle(fontSize: 20)),
               ),
             ),
           ],

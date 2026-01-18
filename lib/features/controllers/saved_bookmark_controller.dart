@@ -10,19 +10,18 @@ class SavedBookmarkController  extends GetxController{
   SavedBookmarkController(this.root);
   @override
   void onInit() {
-    // TODO: implement onInit
     movies.value=[];
     root=="saved"? InitiateSavedMovie():InitiateFavoriteMovie();
     super.onInit();
   }
   void InitiateFavoriteMovie(){
-    Movies.movies.forEach((element) {
+    for (var element in Movies.movies) {
       if ( UserController.instance.currentUser.value!.getFavoriteMovies().contains(
         element.getMovieName(),
       )) {
         movies.value.add(element);
       }
-    });
+    }
   }
   void InitiateSavedMovie(){
     Movies.movies.forEach((element) {
@@ -33,5 +32,4 @@ class SavedBookmarkController  extends GetxController{
       }
     });
   }
-
 }

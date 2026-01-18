@@ -17,12 +17,12 @@ class MoviePlayerScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Initialize the controller specifically for this video
     final controller =  Get.put(MoviePlayerController(videoUrl: videoUrl, movieName: movieName));
-
+    print("movie name"+movieName);
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.purple.shade900,
       body: Obx(() {
         return controller.isInitialized.value
-            ? SafeArea(child: Chewie(controller: controller.chewieController!))
+            ? Chewie(controller: controller.chewieController!)
             : const Center(
                 child: CircularProgressIndicator(color: Colors.purple),
               );

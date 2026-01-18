@@ -219,7 +219,7 @@ class sign_up_Form extends StatelessWidget {
             child: ElevatedButton(
               onPressed: () {
                 controller.submitForm();
-                Get.offNamed("/signIn");
+
 
               },
               child: Text("Sign Up"),

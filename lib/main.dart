@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
 import 'package:todays_movie/features/screens/payment_method.dart';
 
 import 'package:todays_movie/firebase_options.dart';
@@ -11,12 +13,13 @@ import 'package:todays_movie/util/themes/themesData.dart';
 
 import 'features/controllers/auth_controller.dart';
 import 'features/controllers/downloading_controller.dart';
+import 'features/controllers/hive_controller.dart';
 import 'features/controllers/user_controller.dart';
 import 'features/screens/homePages.dart';
 import 'features/screens/home_pages/homeMainPage.dart';
 import 'features/screens/home_pages/settings/saved_and_bookmarks.dart';
 import 'features/screens/home_pages/settings/manage_profile.dart';
-import 'features/screens/mainWelcome.dart';
+import 'features/screens/welcome.dart';
 import 'features/screens/movie.dart';
 import 'features/screens/payment.dart';
 import 'features/screens/play_movie.dart';
@@ -29,11 +32,14 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
-  Get.put(AuthController());
+  await Hive.initFlutter();
+  await Hive.openBox("userInfo");
+  await Get.put(AuthController());
   Get.put(UserController());
+  Get.put(HiveController());
   Get.put(DownloadingController());
   JasonService.getJasonFiles();
+
   runApp(const MyApp());
 
   await Supabase.initialize(
@@ -48,27 +54,55 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
     return GetMaterialApp(
-
       theme: MAppTheme.darkTheme,
       debugShowCheckedModeBanner: false,
-      home: Welcome(),
+      initialRoute: GetRoute(),
       getPages: [
-        GetPage(name: "/signIn", page: () => SignIn(),),
-        GetPage(name: "/signUp", page: () => SignUp(),),
-        GetPage(name: "/home", page: () => Home(),),
-        GetPage(name: "/subscription", page: () => Subscription(),),
-        GetPage(name: "/payment", page: () => Payment(),),
-        GetPage(name: "/paymentMethod", page: () => PaymentMethod(),),
-        GetPage(name: "/search", page: () => Search(),),
-        GetPage(name: "/savedAndBookmarks", page: () => SavedAndBookmarks(pageName: Get.arguments,),),
-        GetPage(name: "/movie", page: () => MoviePage(name:Get.arguments),),
-        GetPage(name: "/homePages", page: () => HomePages(),),
-        GetPage(name: "/playMovie", page: () => MoviePlayerScreen(videoUrl:Get.arguments[0],movieName:Get.arguments[1] ,),),
-        GetPage(name: "/manageProfile", page: () => ManageProfile(),),
+        GetPage(name: "/signIn", page: () => SignIn()),
+        GetPage(name: "/signUp", page: () => SignUp()),
+        GetPage(name: "/home", page: () => Home()),
+        GetPage(name: "/welcome", page: () => Welcome()),
+        GetPage(name: "/subscription", page: () => Subscription()),
+        GetPage(
+          name: "/payment",
+          page: () => Payment(plan: Get.arguments[0], price: Get.arguments[1]),
+        ),
+        GetPage(name: "/paymentMethod", page: () => PaymentMethod()),
+        GetPage(name: "/search", page: () => Search()),
+        GetPage(
+          name: "/savedAndBookmarks",
+          page: () => SavedAndBookmarks(pageName: Get.arguments),
+        ),
+        GetPage(
+          name: "/movie",
+          page: () => MoviePage(name: Get.arguments),
+        ),
+        GetPage(name: "/homePages", page: () => HomePages()),
+        GetPage(
+          name: "/playMovie",
+          page: () => MoviePlayerScreen(
+            videoUrl: Get.arguments[0],
+            movieName: Get.arguments[1],
+          ),
+        ),
+        GetPage(name: "/manageProfile", page: () => ManageProfile()),
       ],
     );
+  }
+
+  String GetRoute() {
+    if (MyHive.getNewValue(key: "welcome") == false) {
+      print("welcome ${MyHive.getNewValue(key: "welcome")}");
+      return '/welcome';
+    } else if (AuthController.instance.user == null) {
+      return '/signIn';
+    } else if (MyHive.getNewValue(key: "userTier") == false) {
+      print("userTier ${MyHive.getNewValue(key: "userTier")}");
+      return '/subscription';
+    } else {
+      return '/homePages';
+    }
   }
 }
 

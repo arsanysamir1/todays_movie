@@ -14,6 +14,7 @@ class AuthController extends GetxController {
 
   User? get user => _firebaseUser.value;
 
+
   @override
   void onInit() { // 3. CHANGE: Use onInit instead of onReady for early binding
     super.onInit();
@@ -21,19 +22,10 @@ class AuthController extends GetxController {
     _firebaseUser.bindStream(_auth.authStateChanges());
 
     // Workers like 'ever' should be placed in onInit
-    ever(_firebaseUser, _initialScreen);
+
   }
 
-  _initialScreen(User? user) {
-    // Delay is good, but ensure the route names match your GetPage setup
-    // Future.delayed(const Duration(milliseconds: 500), () {
-    //   if (user == null) {
-    //     Get.offAllNamed('/signIn');
-    //   } else {
-    //     Get.offAllNamed('/homePages');
-    //   }
-    // });
-  }
+
   //
 
   // Register Method
@@ -52,6 +44,7 @@ class AuthController extends GetxController {
   Future<void> login(String email, String password) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
+      Get.offNamed("homePages");
     } catch (e) {
       Get.snackbar("Login Failed", e.toString());
     }

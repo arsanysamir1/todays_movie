@@ -15,8 +15,13 @@ class DownloadedController extends GetxController {
   void onInit() {
     super.onInit();
     if (UserController.instance.currentUser.value != null) {
+
       InitiateDownloadedMovie();
+
+    }else{
+      print("user isn't initialized");
     }
+
   }
 
   // void InitiateDownloadingMovie(){
@@ -34,6 +39,7 @@ class DownloadedController extends GetxController {
 
   void InitiateDownloadedMovie() {
     movies.clear();
+
     print("--- downloaded movies ---");
     Movies.movies.forEach((element) {
       if (UserController.instance.currentUser.value!

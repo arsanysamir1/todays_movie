@@ -6,7 +6,7 @@ import '../../features/modules/movies.dart';
 
 class JasonService {
 
-  static void getJasonFiles() async {
+  static Future<void> getJasonFiles() async {
 
     String top250 = await rootBundle.loadString('jason/250.txt');
     // String populer = await rootBundle.loadString('jason/popular.txt');

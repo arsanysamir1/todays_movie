@@ -3,10 +3,12 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:get/get.dart';
 import 'package:todays_movie/util/validators/credit_card_validation.dart';
 
-import '../controllers/paynent_controller.dart';
+import '../controllers/paynent_method_controller.dart';
 
 class PaymentMethod extends StatelessWidget {
-  PaymentMethod({super.key});
+   PaymentMethod({super.key});
+
+
 
   GlobalKey<FormState> paymentKey = GlobalKey();
 
@@ -20,7 +22,7 @@ class PaymentMethod extends StatelessWidget {
         .of(context)
         .size
         .height;
-    final controller = Get.put(PaymentController());
+    final controller = Get.put(PaymentMethodController());
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: Container(
@@ -34,9 +36,21 @@ class PaymentMethod extends StatelessWidget {
             stops: [0.0, 0.4],
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+
           children: [
+            SizedBox(height: height*0.05,),
+            Row(
+              children: [
+                SizedBox(width: width*0.02,),
+                IconButton(padding: EdgeInsets.all(15),onPressed: (){
+                  Get.back();
+                },icon:Icon(Icons.arrow_back_ios)),
+              ],
+            ),
+            SizedBox(height: height*0.02,),
+
             Card(
               elevation: 10,
               color: Colors.transparent,
@@ -64,6 +78,8 @@ class PaymentMethod extends StatelessWidget {
                 ),
               ),
             ),
+            SizedBox(height: height*0.05,),
+
             CreditCardForm(
 
               cardNumberValidator: (value) =>
@@ -81,13 +97,18 @@ class PaymentMethod extends StatelessWidget {
               obscureCvv: false,
               formKey: paymentKey,
             ),
+            SizedBox(height: height*0.05,),
+
             Container(
               margin: EdgeInsets.symmetric(horizontal: 10),
               width: width,
               child: ElevatedButton(
                 onPressed: () {
                   if (paymentKey.currentState!.validate()) {
-                    Get.back();
+                    Get.back(result: [
+                      controller.holderName.value,
+                      controller.cardNumber.value.substring(controller.cardNumber.value.length - 4)
+                    ]);
                   }
                 },
                 child: Text("Confirm Card"),

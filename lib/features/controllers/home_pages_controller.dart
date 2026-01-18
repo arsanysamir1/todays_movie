@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:todays_movie/features/controllers/user_controller.dart';
 
 import 'downloaded_controller.dart';
 class HomePagesController extends GetxController {
@@ -10,7 +11,13 @@ class HomePagesController extends GetxController {
 
     if (index == 1) {
       try {
+        if(UserController.instance.currentUser.value==null){
+          print("user isn't initialized");
+        }else{
+          print("user is initialized");
+        }
         Get.find<DownloadedController>().InitiateDownloadedMovie();
+
         downloadTrigger.value++;
       } catch (e) {
         // In case the controller hasn't been initialized yet
