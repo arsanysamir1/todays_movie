@@ -160,7 +160,6 @@ class Payment extends StatelessWidget {
                                   onPressed: () async {
                                     controller.cardInfo.value =
                                         await Get.toNamed("/paymentMethod");
-
                                   },
                                   child: Text(
                                     "Choose payment method",
@@ -212,8 +211,17 @@ class Payment extends StatelessWidget {
               width: width,
               child: ElevatedButton(
                 onPressed: () {
-                  Get.toNamed("/home");
-                  MyHive.setNewValue(key: 'userTier',value: true);
+                  if (controller.cardInfo.isEmpty) {
+                    Get.snackbar(
+                      "Payment Method",
+                      "Please choose your payment Method",
+                      backgroundColor: Colors.black45,
+
+                    );
+                  } else {
+                    Get.toNamed("/homePages");
+                    MyHive.setNewValue(key: 'userTier', value: true);
+                  }
                 },
                 child: Text("Confirm Payment", style: TextStyle(fontSize: 20)),
               ),
