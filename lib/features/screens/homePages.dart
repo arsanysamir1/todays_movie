@@ -15,6 +15,7 @@ class HomePages extends StatelessWidget {
 
     final width = MediaQuery.of(context).size.width;
     final controller = Get.put(HomePagesController());
+
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
         padding: EdgeInsets.zero,

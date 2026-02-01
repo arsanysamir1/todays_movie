@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:todays_movie/util/constants/fonts.dart';
 
+import '../../controllers/auth_controller.dart';
+import '../../controllers/user_controller.dart';
 import 'home/home_wide_images.dart';
 import 'home/movies_scroller.dart';
 
@@ -10,9 +14,11 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    Get.put(UserController());
+    Get.put(AuthController());
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+
     return Scaffold(
 
 

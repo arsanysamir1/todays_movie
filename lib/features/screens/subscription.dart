@@ -3,6 +3,8 @@ import 'package:todays_movie/features/controllers/user_controller.dart';
 import 'package:todays_movie/util/constants/images.dart';
 import 'package:get/get.dart';
 
+import '../controllers/hive_controller.dart';
+
 class Subscription extends StatelessWidget {
   const Subscription({super.key});
 
@@ -152,6 +154,7 @@ class Subscription extends StatelessWidget {
                               } else if (index == 2) {
                                 Get.toNamed("/payment",arguments: [plan[index],payment[index]]);
                               } else if (index == 0) {
+                                MyHive.setNewValue(key: 'userTier', value: true);
                                 Get.offNamed("/homePages");
                               }
                             },

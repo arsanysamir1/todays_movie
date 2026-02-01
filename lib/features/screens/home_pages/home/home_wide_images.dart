@@ -56,26 +56,7 @@ class wideImages extends StatelessWidget {
         Positioned(
           height: height * 0.95,
           width: width,
-          child: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(8, (index) {
-                return Row(
-                  children: [
-                    Container(
-                      height: 10,
-                      width: 10,
-                      decoration: BoxDecoration(
-                        color: MColors.pur100,
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                    ),
-                    SizedBox(width: 8),
-                  ],
-                );
-              }),
-            ),
-          ),
+           child:Container(),
         ),
         Positioned(
           child: Container(
